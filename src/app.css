@@ -1,0 +1,16 @@
+:root {
+	--color-white: #f2e3da;
+	--color-black: #26262d;
+	--color-primary: #a07178;
+	--color-secondary: #53475a;
+}
+
+body {
+	margin: 0;
+	display: flex;
+	background-color: var(--color-white);
+	font-family: 'Inter Variable';
+
+	flex-direction: column;
+	justify-content: center;
+}
