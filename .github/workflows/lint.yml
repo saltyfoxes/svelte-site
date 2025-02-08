@@ -1,0 +1,25 @@
+name: Run Prettier and ESLint
+
+on:
+  push:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        env:
+          BASE_PATH: '/${{ github.event.repository.name }}'
+        run: npm run lint
