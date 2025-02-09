@@ -58,7 +58,7 @@
 	}
 
 	.about {
-		font-size: 2vmin;
+		font-size: 3.5vmin;
 	}
 
 	.links-section {
