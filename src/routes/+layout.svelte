@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '@fontsource/katibeh';
 	import '@fontsource/inter';
 	import '../app.css';
 

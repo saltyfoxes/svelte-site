@@ -94,6 +94,7 @@ On other pages, the animation is skipped.
 
 	.header-container {
 		top: 0;
+		z-index: 1;
 		width: 100vw;
 		position: fixed;
 	}
