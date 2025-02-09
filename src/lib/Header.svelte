@@ -7,12 +7,16 @@ On other pages, the animation is skipped.
 -->
 
 <script lang="ts">
-	let { text, isHome = false }: { text: string; isHome?: boolean } = $props();
+	let {
+		text,
+		isHome = false,
+		pastScrollLock = $bindable(!isHome)
+	}: { text: string; isHome?: boolean; pastScrollLock?: boolean } = $props();
 
 	let windowScroll: number | undefined = $state();
 	let windowHeight: number | undefined = $state();
 	let scrollInterval = $derived.by(() => {
-		if (!isHome) {
+		if (pastScrollLock) {
 			return 1;
 		}
 
@@ -24,14 +28,16 @@ On other pages, the animation is skipped.
 	});
 
 	let [blockStyle, titleStyle] = $derived([
-		`
-            height: ${interpolate(4, 36, 1 - scrollInterval)}vh
-        `,
-		`
-            font-size: ${interpolate(2, 5, 1 - scrollInterval)}em;
-            margin-bottom: ${interpolate(0, 5, 1 - scrollInterval)}vh;
-        `
+		`height: ${interpolate(4, 36, 1 - scrollInterval)}vh`,
+		`font-size: ${interpolate(3, 5, 1 - scrollInterval)}vh;
+        margin-bottom: ${interpolate(0, 5, 1 - scrollInterval)}vh;`
 	]);
+
+	$effect(() => {
+		if (!pastScrollLock && scrollInterval === 1) {
+			pastScrollLock = true;
+		}
+	});
 
 	function interpolate(from: number, to: number, interval: number) {
 		return to * interval + from;
@@ -47,15 +53,19 @@ On other pages, the animation is skipped.
 <div class="header-container">
 	<div style={blockStyle} class="top-section"></div>
 	<div style={blockStyle} class="mid-section">
-		{#if scrollInterval === 1}
-			<h1 style={titleStyle} class="animating"><span>{text}</span></h1>
+		{#if isHome && pastScrollLock}
+			<h1 style={titleStyle} class="slide-text-left"><span>{text}</span></h1>
+		{:else if pastScrollLock}
+			<h1 style={titleStyle} class="text-left">{text}</h1>
 		{:else}
 			<h1 style={titleStyle}><span>{text}</span></h1>
 		{/if}
 	</div>
 </div>
 
-<div class="bottom-section"></div>
+{#if !pastScrollLock}
+	<div class="initial-screen-container"></div>
+{/if}
 
 <style>
 	.top-section {
@@ -88,16 +98,21 @@ On other pages, the animation is skipped.
 		position: fixed;
 	}
 
-	.bottom-section {
-		height: 40vh;
+	.initial-screen-container {
+		height: 200vh;
 	}
 
-	.animating {
+	.slide-text-left {
 		animation: slide-title-left forwards 2s;
 	}
 
-	.animating span {
+	.slide-text-left span {
 		animation: undo-text-translate forwards 2s;
+	}
+
+	.text-left {
+		margin-left: 2em !important;
+		translate: 0 !important;
 	}
 
 	@keyframes slide-title-left {

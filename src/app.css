@@ -5,6 +5,10 @@
 	--color-secondary: #53475a;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 	margin: 0;
 	display: flex;
@@ -12,7 +16,20 @@ body {
 	font-family: 'Inter Variable';
 
 	flex-direction: column;
+}
 
-	/* DO NOT PUSH ME DUMBASS */
-	height: 300vh;
+main {
+	padding-top: 8vh;
+	min-height: 100vh;
+	animation: fade-in 2s forwards;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0%;
+	}
+
+	to {
+		opacity: 100%;
+	}
 }
