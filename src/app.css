@@ -12,5 +12,7 @@ body {
 	font-family: 'Inter Variable';
 
 	flex-direction: column;
-	justify-content: center;
+
+	/* DO NOT PUSH ME DUMBASS */
+	height: 300vh;
 }
